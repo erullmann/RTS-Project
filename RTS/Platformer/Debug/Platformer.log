@@ -1,0 +1,20 @@
+﻿Build started 18/09/2012 7:08:07 PM.
+     1>Project "C:\Users\Henk\Documents\Visual Studio 2010\Projects\RTS\Platformer\Platformer.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Debug\RTS.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         All outputs are up-to-date.
+       ManifestResourceCompile:
+         All outputs are up-to-date.
+       Link:
+         All outputs are up-to-date.
+       Manifest:
+         All outputs are up-to-date.
+       FinalizeBuildStatus:
+         Deleting file "Debug\RTS.unsuccessfulbuild".
+         Touching "Debug\RTS.lastbuildstate".
+     1>Done Building Project "C:\Users\Henk\Documents\Visual Studio 2010\Projects\RTS\Platformer\Platformer.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.80
