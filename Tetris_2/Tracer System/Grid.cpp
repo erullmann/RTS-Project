@@ -173,7 +173,7 @@ void Grid::Tick() //Checks time, based on level, pushes blocks down, calls Check
 {
 	bool spawnedBlock = false;
 
-	level = std::floorf((score / 200));
+	level = std::floorf(score / 200);
 
 	if(lineEliminationMode == false)
 	{
@@ -421,7 +421,7 @@ int Grid::ReturnScore() //return score (for UI)
 
 int Grid::ReturnLevel() //returns level (for UI)
 {
-	level = std::floorf((score / 200));
+	//level = std::floorf((score / 200));
 	return level;
 }
 

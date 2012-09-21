@@ -42,7 +42,7 @@ private:
 	bool lineEliminationMode;
 
 	Block m_Grid[180];
-	int score;
+	float score;
 	int level;
 	sf::Texture img_block;
 	sf::Sprite spt_block;

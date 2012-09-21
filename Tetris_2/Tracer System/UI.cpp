@@ -8,15 +8,15 @@ void UI::Draw(sf::RenderWindow& renderWindow, Grid& _grid)
 	char scoretext[10];
 	itoa(score, scoretext, 10);
 	sf::Text TextSCORE(scoretext, font, 16);
-	TextSCORE.SetPosition(355, 270);
+	TextSCORE.SetPosition(355, 277);
 	renderWindow.Draw(TextSCORE, sf::RenderStates::Default);
 
 	//draw level
 	int level = _grid.ReturnLevel();
 	char leveltext[10];
-	itoa(score, leveltext, 10);
+	itoa(level, leveltext, 10);
 	sf::Text TextLVL(leveltext, font, 48);
-	TextLVL.SetPosition(400, 118);
+	TextLVL.SetPosition(395, 100);
 	renderWindow.Draw(TextLVL, sf::RenderStates::Default);
 
 	//draw background
