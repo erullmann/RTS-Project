@@ -1,30 +1,28 @@
-////////////////////
-//DrawManager: draws and displays the map and ingame objects and UI
-///////////////////
+/* ResoucesManager.h
+   Loads and manages resouces for the game, allowing tiles and units to access images they need
+  */
+#pragma once
 #include "SFML\Graphics.hpp"
-#include "TileEntity.h"
-#include "LevelManager.h"
+#include "EntityType.h" 
 
-class DrawManager 
-{
+
+//the various entities who have display elements or who might request resources
+
+class ResourceManager {
 public:
+	//Constuctor, loads images
+	ResourceManager();
+	
+	//unloads images
+	~ResourceManager();
 
-	void start(LevelManager& levelManager);
-
-	void drawGame(sf::RenderWindow& renderWindow, LevelManager& levelManager);
-
-	void drawUI(sf::RenderWindow& renderWindow, LevelManager& levelManager);
-
-	void end();
+	//When given the entity type, this returns the proper texture information 
+	sf::Texture *returnElementTexture(ENTITYTYPE requestingEntity);
 
 private:
 
-	void generateTiles(LevelManager& levelManager, sf::Texture& mapTextureSheet);
+	sf::Image mapTextureSheet; //main image for map tiles
 
-	void deleteTiles();
-
-	sf::Texture mapTextureSheet; //main texture for map tiles
-
-	std::vector<TileEntity*> m_TileList;
+	sf::Image unitTextureSheet; //main image for units
 
 };
