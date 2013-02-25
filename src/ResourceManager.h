@@ -10,8 +10,8 @@
 
 class ResourceManager {
 public:
-	//Constuctor, loads images
-	ResourceManager();
+
+	void load();
 	
 	//unloads images
 	~ResourceManager();

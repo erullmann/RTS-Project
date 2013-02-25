@@ -1,6 +1,6 @@
 #include "ResourceManager.h"
 
-ResourceManager::ResourceManager()
+void ResourceManager::load()
 {
 	//load spritesheets
 	mapTextureSheet.loadFromFile("tilesheet_good_65.png");
