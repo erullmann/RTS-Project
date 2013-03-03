@@ -3,8 +3,8 @@
 void ResourceManager::load()
 {
 	//load spritesheets
-	mapTextureSheet.loadFromFile("tilesheet_good_65.png");
-	unitTextureSheet.loadFromFile("tank_body.png");
+	mapTextureSheet.loadFromFile("tilesheet.png");
+	unitTextureSheet.loadFromFile("tilesheet.png");
 }
 
 ResourceManager::~ResourceManager(){
@@ -14,21 +14,21 @@ ResourceManager::~ResourceManager(){
 }
 
 sf::Texture *ResourceManager::returnElementTexture(ENTITYTYPE rEntity){
-	sf::Texture texture;
+	sf::Texture *texture = new sf::Texture;
 	switch (rEntity) {
 		case TILE_OCEAN:
-			texture.loadFromImage(unitTextureSheet, sf::Rect<int>(100, 0, 100, 65));
+			texture->loadFromImage(mapTextureSheet, sf::Rect<int>(0, 0, 128, 64));
 			break;
 		case TILE_GRASS:
-			texture.loadFromImage(unitTextureSheet, sf::Rect<int>(0, 0, 100, 65));
+			texture->loadFromImage(mapTextureSheet, sf::Rect<int>(0, 0, 128, 64));
 			break;
-		case UNIT_TANK:
-			texture.loadFromImage(unitTextureSheet, sf::Rect<int>(0, 0, 384, 48));
+		case UNIT_DEER:
+			texture->loadFromImage(unitTextureSheet, sf::Rect<int>(0, 0, 384, 48));
 			break;
 		default: //ocean texture
-			texture.loadFromImage(unitTextureSheet, sf::Rect<int>(0, 0, 384, 48));
+			texture->loadFromImage(mapTextureSheet, sf::Rect<int>(0, 0, 128, 64));
 			break;
 	}
 
-	return &texture;
+	return texture;
 }

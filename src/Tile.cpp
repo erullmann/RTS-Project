@@ -1,13 +1,11 @@
 #pragma once
 #include "Tile.h"
 
-Tile::Tile(sf::Vector2i position, sf::Vector2i drawSize, sf::RenderWindow &renderWindow, ResourceManager *resourceManager, ENTITYTYPE type, int height){
+Tile::Tile(sf::Vector2f position, sf::Vector2i drawSize, sf::RenderWindow &renderWindow, ResourceManager &resourceManager, ENTITYTYPE type, int height){
 	//might want to change the cost calculation later
-	NodeComponent nodeComponent(height);
-	_nodeComponent = &nodeComponent;
-
-	DrawComponent drawComponent(resourceManager, type, renderWindow, drawSize, sf::Vector2i(0,0), sf::Vector2i(0,0), sf::Vector2i(0,0), sf::Vector2i(0,0), 0, 0, 0);
-	_drawComponent = &drawComponent;
+	_nodeComponent = new NodeComponent(height);
+	sf::Vector2i zero(0,0);
+	_drawComponent = new DrawComponent(resourceManager, type, renderWindow, drawSize, zero, zero, zero, zero, 0, 0, 0);
 
 	_type = type;
 	_height = height;
@@ -15,8 +13,8 @@ Tile::Tile(sf::Vector2i position, sf::Vector2i drawSize, sf::RenderWindow &rende
 }
 
 Tile::~Tile(){
-	_drawComponent->~DrawComponent();
-	_nodeComponent->~NodeComponent();
+	delete _drawComponent;
+	delete _nodeComponent;
 }
 
 void Tile::draw(){
@@ -27,7 +25,7 @@ ENTITYTYPE Tile::returnType(){
 	return _type;
 }
 
-sf::Vector2i Tile::returnPosition(){
+sf::Vector2f Tile::returnPosition(){
 	return _position;
 }
 

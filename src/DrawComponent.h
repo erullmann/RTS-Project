@@ -9,8 +9,6 @@
 #include "SFML\Graphics.hpp"
 #include "ResourceManager.h"
 
-int millesecondsPerFrame = 1000/12;
-
 class DrawComponent {
 public:
 
@@ -24,7 +22,7 @@ public:
 	//	-attackFrames tells draw length of the attack animation (in frames) (min 0)
 	//	-moveFrames does above for move animation (min 0)
 	//	-dieFrames does above for deathAnimation (min 1)//also is default image
-	DrawComponent(ResourceManager *resourceManager, enum ENTITYTYPE type, sf::RenderWindow &renderWindow, sf::Vector2i spriteSize, sf::Vector2i defaultFramePos, sf::Vector2i attackAnimationStart, sf::Vector2i deathAnimationStart, sf::Vector2i moveAnimationStart, int attackFrames, int moveFrames, int dieFrames);
+	DrawComponent(ResourceManager &resourceManager, ENTITYTYPE type, sf::RenderWindow &renderWindow, sf::Vector2i spriteSize, sf::Vector2i defaultFramePos, sf::Vector2i attackAnimationStart, sf::Vector2i deathAnimationStart, sf::Vector2i moveAnimationStart, int attackFrames, int moveFrames, int dieFrames);
 
 	//Frees memory, cleans up, etc.
 	~DrawComponent();

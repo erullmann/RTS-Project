@@ -9,12 +9,14 @@
 #include "NodeComponent.h"
 #include "DrawComponent.h"
 
+class NodeComponent;
+class DrawComponent;
 
 class Tile: public BaseEntity{
 public:
 
 	//Constructor foe tile, sets position, size of tiles (width), type of tile
-	Tile(sf::Vector2i position, sf::Vector2i drawSize, sf::RenderWindow &renderWindow, ResourceManager *resourceManager, ENTITYTYPE type, int height); 
+	Tile(sf::Vector2f position, sf::Vector2i drawSize, sf::RenderWindow &renderWindow, ResourceManager &resourceManager, ENTITYTYPE type, int height); 
 
 	~Tile();
 
@@ -25,14 +27,14 @@ public:
 	ENTITYTYPE returnType();
 
 	//Returns the entity's position
-	sf::Vector2i returnPosition();
+	sf::Vector2f returnPosition();
 
 	//Returns the tile's height
 	int returnHeight();
 
 private:
 
-	sf::Vector2i _position;
+	sf::Vector2f _position;
 
 	int _height;
 

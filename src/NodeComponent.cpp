@@ -6,21 +6,23 @@ NodeComponent::NodeComponent(int cost){
 	_cost = cost;
 }
 
-void NodeComponent::findNeighbors(Tile **map, Tile *self, sf::Vector2i mapSize){
-	sf::Vector2i selfPos = self->returnPosition();
-	for (int i = -1; i < 1; i++){
-		for (int j = -1; j < 1; j++){
-			if ((selfPos.x + i) >= 0 && (selfPos.x + i) < mapSize.x && //potential neighbor is not out of bounds
-				(selfPos.y + i) >= 0 && (selfPos.y + i) < mapSize.y &&
-				(i != 0 && j != 0)){ //and is not ourselves
-					neighbors.push_back(&map[i][j]); //add it to our list of neighbors
+void NodeComponent::findNeighbors(EntityList &map, Tile &self, sf::Vector2i mapSize){
+	map.resetIterator();
+
+	for (int i = 0; i < mapSize.x * mapSize.y; i++){
+		BaseEntity *temp = map.iterateEntites();
+		if(temp->returnPosition() != self.returnPosition()){
+			if (temp->returnPosition().x - self.returnPosition().x < 1 && temp->returnPosition().x - self.returnPosition().x > -1){
+				if (temp->returnPosition().y - self.returnPosition().y < 1 && temp->returnPosition().y - self.returnPosition().y > -1){
+					_neighbors.pushBack(temp);
+				}
 			}
 		}
 	}
 }
 
-std::vector<Tile*> NodeComponent::returnNeighbors(){
-	return neighbors;
+EntityList NodeComponent::returnNeighbors(){
+	return _neighbors;
 }
 
 void NodeComponent::updateGScore(int newGScore){

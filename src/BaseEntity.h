@@ -11,13 +11,12 @@ class BaseEntity
 {
 public:
 
-	virtual void update(); //different for all inheriting objects; will typically make AI, physics and collision calls; if colliding with a dangours object, will take damage
+	virtual void update(sf::Time frameTime); //different for all inheriting objects; will typically make AI, physics and collision calls; if colliding with a dangours object, will take damage
 
 	virtual void draw();//draws object on screen based on self read conditions
 
 	virtual void destroy(); //dystroys the unit
 
-private:
-
+	virtual sf::Vector2f returnPosition();
 
 };

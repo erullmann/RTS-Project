@@ -2,6 +2,7 @@
 */
 #pragma once
 #include "DrawComponent.h"
+#include <iostream>
 #include <math.h>
 
 sf::Vector2f DrawComponent::calculateScreenPosition(sf::Vector2f location){
@@ -11,8 +12,10 @@ sf::Vector2f DrawComponent::calculateScreenPosition(sf::Vector2f location){
 	return position_final;
 }
 
-DrawComponent::DrawComponent(ResourceManager *resourceManager, ENTITYTYPE type, sf::RenderWindow &renderWindow, sf::Vector2i spriteSize, sf::Vector2i defaultFramePos, sf::Vector2i attackAnimationStart, sf::Vector2i deathAnimationStart, sf::Vector2i moveAnimationStart, int attackFrames, int moveFrames, int deathFrames){
-	_texture = resourceManager->returnElementTexture(type);
+DrawComponent::DrawComponent(ResourceManager &resourceManager, ENTITYTYPE type, sf::RenderWindow &renderWindow, sf::Vector2i spriteSize, sf::Vector2i defaultFramePos, sf::Vector2i attackAnimationStart, sf::Vector2i deathAnimationStart, sf::Vector2i moveAnimationStart, int attackFrames, int moveFrames, int deathFrames){
+	float millesecondsPerFrame = 1000/12;
+
+	_texture = resourceManager.returnElementTexture(type);
 	_renderWindow = &renderWindow;
 	_spriteSize = spriteSize;
 	_sprite.setOrigin(spriteSize.x/2, spriteSize.y/2);
@@ -27,6 +30,10 @@ DrawComponent::DrawComponent(ResourceManager *resourceManager, ENTITYTYPE type, 
 	_numberOfMoveFrames = moveFrames;
 	_lengthOfDeathAnimation = sf::milliseconds(deathFrames * millesecondsPerFrame);
 	_numberOfDeathFrames = deathFrames;
+}
+
+DrawComponent::~DrawComponent(){
+
 }
 
 //static objects
@@ -102,7 +109,7 @@ void DrawComponent::drawInWindow(int alignX, int alignY){
 		_sprite.setOrigin(_sprite.getOrigin().x, 0);
 	}
 	if (alignX == 6){
-		_sprite.setOrigin(_sprite.getTextureRect.width, _sprite.getOrigin().y);
+		_sprite.setOrigin(_sprite.getTextureRect().width, _sprite.getOrigin().y);
 	}
 	if (alignY == 6){
 		_sprite.setOrigin(_sprite.getOrigin().x, _sprite.getTextureRect().height);

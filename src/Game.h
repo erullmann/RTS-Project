@@ -41,9 +41,9 @@ private:
 	//state we're in right now
 	static GAMESTATE _gameState;
 
-	static ResourceManager _resourceManager;
+	static ResourceManager *_resourceManager;
 
-	static sf::RenderWindow _renderWindow;
+	static sf::RenderWindow *_renderWindow;
 
-	static LevelManager _levelManager;
+	static LevelManager *_levelManager;
 };

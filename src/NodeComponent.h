@@ -3,7 +3,10 @@
 */
 #pragma once
 #include "SFML\System.hpp"
+#include "EntityList.h"
 #include "Tile.h"
+
+class Tile;
 
 class NodeComponent{
 public:
@@ -11,16 +14,16 @@ public:
 	NodeComponent(int cost);
 
 	//finds neighboring tiles
-	//  - Tile **map is a array of all the tiles present in the map
+	//  - EntityList *map is a linked list of all the tiles present in the map
 	//  - Tile *self is the tile we are presently in
 	//  - sf::Vector2i mapSize is the size of the map in tiles
-	void findNeighbors(Tile **map, Tile *self, sf::Vector2i mapSize);
+	void findNeighbors(EntityList &map, Tile &self, sf::Vector2i mapSize);
 
 	//returns neighboring tiles for evaluation during pathfinding
-	std::vector<Tile*> returnNeighbors();
+	EntityList returnNeighbors();
 
 	//sets the parent
-	void setParent(Tile *parent);
+	void setParent(Tile &parent);
 
 	//returns the parent tile for backtracing while pathfinding
 	Tile *returnParent();
@@ -37,8 +40,8 @@ public:
 	
 private:
 
-	Tile *parent;
+	Tile *_parent;
 
-	std::vector<Tile*> neighbors;
+	EntityList _neighbors;
 
 };

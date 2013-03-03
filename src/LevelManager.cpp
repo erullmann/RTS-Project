@@ -1,147 +1,110 @@
 
 #include "LevelManager.h"
 
-int **LevelManager::m_Map = NULL;
+LevelManager::LevelManager(sf::RenderWindow &renderWindow, ResourceManager &resourceManager){
+	_renderWindow = &renderWindow;
+	_resourceManager = &resourceManager;
+	_mapList = new EntityList;
+	_unitList = new EntityList;
+}
 
-int LevelManager::load(std::string levelname)
-{
+void LevelManager::load(std::string levelname, sf::RenderWindow& renderWindow){
+	//not used for now
 	isPaused = false;
-	levelSize.x = 40;
-	levelSize.y = 40;
+	_levelSize.x = 40;
+	_levelSize.y = 40;
 
-	/////////////
-	//loading level pointer with random tiles
-	//create rows
-	m_Map = new int*[levelSize.x];
-	//create columns
-	for (int i = 0; i<levelSize.x; i++)
-	{
-		m_Map[i] = new int [levelSize.x];
-	}
-	//fill level
-	for (int i=0; i<levelSize.x; i++)
-	{
-		for (int j=0; j<levelSize.y; j++)
-		{
-			int random = std::rand()%2;
-			m_Map[i][j] = random;
-		}
-	}
 	
 	///////////
 	//Entity management
 	///////////
 
-	return 1;
 }
 
-void LevelManager::unload()
-{
-	for (int i=0; i<levelSize.x; i++)
-	{
-		for (int j=0; j<levelSize.y; j++)
-		{
-			m_Map[i][j] = 0;
-		}
-	}
-
+void LevelManager::unload(){
 	deleteAllEntitys();
 }
 
-int LevelManager::save()
+void LevelManager::save(std::string filename)
 {
 	//saving XML code
-	return 1;
 }
 
-void LevelManager::updateLevel(sf::Time frame_time)
-{
-	for (std::vector<BaseEntity*>::iterator m_EntityListIter = m_EntityList.begin(); m_EntityListIter != m_EntityList.end(); m_EntityListIter++)
-	{
-		(*m_EntityListIter)->update(frame_time, this->returnEntityList(), this->getMap());
+void LevelManager::generate(int seed){
+	for(int i=0; i<1; i++){
+		for(int j=0; j<1; j++){
+			ENTITYTYPE type = TILE_GRASS;
+			Tile *temp = new Tile(sf::Vector2f(i, j), sf::Vector2i(128, 64), *_renderWindow, *_resourceManager, type, 0);
+			_mapList->pushBack(temp);
+		}
 	}
 }
 
-int LevelManager::addEntity(sf::Vector2f position, int typeID, int team)
-{
+void LevelManager::updateLevel(sf::Time frame_time){
+	_unitList->resetIterator(); //just to be safe
+
+	BaseEntity *currEntity = _unitList->iterateEntites();
+	while (currEntity != NULL)
+	{
+		currEntity->update(frame_time);
+		currEntity = _unitList->iterateEntites();
+	}
+}
+
+void LevelManager::addEntity(sf::Vector2f pos, ENTITYTYPE type){
 	BaseEntity* pEntity;
 	//change to switch statment
-	if (typeID == 0)
-		pEntity = new Tank;
-	else
-		pEntity = new Tank;//temp
-
-	//find availible IDs
-	int id;
-
-	if (m_FreeEntityList.empty())
-	{
-		id = m_EntityList.size();
-		m_EntityList.push_back(pEntity);
-	}
-	else
-	{
-		id = m_FreeEntityList.back();
-		m_FreeEntityList.pop_back();
-		m_EntityList[id] = pEntity;
-	}
-
-	m_EntityList[id]->start(position, team);
-
-	return typeID;
+	if (type == TILE_OCEAN){
+		pEntity = new Tile(sf::Vector2f(pos.x, pos.y), sf::Vector2i(64, 32), *_renderWindow, *_resourceManager, type, 0);
+		_mapList->pushBack(pEntity);
+	}else{
+		pEntity = new Tile(sf::Vector2f(pos.x, pos.y), sf::Vector2i(64, 32), *_renderWindow, *_resourceManager, type, 0);//temp
+		_mapList->pushBack(pEntity);
+	}	
 }
 
 
-void LevelManager::deleteEntity()
-{
-	std::vector<BaseEntity*>::iterator m_EntityListIter = m_EntityList.begin();
-	for (unsigned int i = 0; i < m_EntityList.size(); i++)
+void LevelManager::deleteEntity(BaseEntity *entity){
+	//add member() and delete() functions to EntityList
+}
+
+void LevelManager::deleteAllEntitys(){
+	_mapList->deleteList();
+	_unitList->deleteList();
+}
+
+void LevelManager::drawAllEntitys(){
+	_mapList->resetIterator();
+	_unitList->resetIterator();
+
+	BaseEntity *currEntity = _mapList->iterateEntites();
+	while (currEntity != NULL)
 	{
-		if (m_EntityListIter[i]->returnDeleteFlag() == true)
-		{
-			(*m_EntityListIter)->destroy();
-			m_FreeEntityList.push_back(i);
-		}
-		i++;
+		currEntity->draw();
+		currEntity = _mapList->iterateEntites();
+	}
+
+	currEntity = _unitList->iterateEntites();
+	while (currEntity != NULL)
+	{
+		currEntity->draw();
+		currEntity = _mapList->iterateEntites();
 	}
 }
 
-void LevelManager::deleteAllEntitys()
-{
-	std::vector<BaseEntity*>::iterator m_EntityListIter = m_EntityList.begin();
-	while (m_EntityListIter != m_EntityList.end())
-	{
-		(*m_EntityListIter)->destroy();
-		m_EntityListIter = m_EntityList.erase(m_EntityListIter);
-	}
+void LevelManager::pauseGame(){
+	isPaused = !isPaused; //toggles pausegame
 }
 
-void LevelManager::drawAllEntitys(sf::RenderWindow& renderWindow)
-{
-	std::vector<BaseEntity*>::iterator m_EntityListIter = m_EntityList.begin();
-	while (m_EntityListIter != m_EntityList.end())
-	{
-		(*m_EntityListIter)->draw(renderWindow);
-		m_EntityListIter++;
-	}
+EntityList *LevelManager::getMapList(){
+	return _mapList;
 }
 
-void LevelManager::pauseGame()
-{
-	isPaused != isPaused; //toggles pausegame
+EntityList *LevelManager::getUnitList(){
+	return _unitList;
 }
 
-int **LevelManager::getMap()
-{
-	return m_Map;
-}
 
-std::vector<BaseEntity*> LevelManager::returnEntityList()
-{
-	return m_EntityList; //returns list of entities for drawing and such
-}
-
-sf::Vector2i LevelManager::returnLevelSize()
-{
-	return levelSize;
+sf::Vector2i LevelManager::returnLevelSize(){
+	return _levelSize;
 }

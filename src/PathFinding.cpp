@@ -24,5 +24,5 @@ int **generateCostMap(int **map, sf::Vector2i mapSize, UNITTYPE type){
 }
 
 sf::Vector2f *generateRoute(int **costMap, sf::Vector2f unitLoc, sf::Vector2f unitDest){
-	
+	return &sf::Vector2f(0, 0);
 }
