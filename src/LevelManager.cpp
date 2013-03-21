@@ -31,8 +31,8 @@ void LevelManager::save(std::string filename)
 }
 
 void LevelManager::generate(int seed){
-	for(int i=0; i<1; i++){
-		for(int j=0; j<1; j++){
+	for(int i=0; i<10; i++){
+		for(int j=0; j<10; j++){
 			ENTITYTYPE type = TILE_GRASS;
 			Tile *temp = new Tile(sf::Vector2f(i, j), sf::Vector2i(128, 64), *_renderWindow, *_resourceManager, type, 0);
 			_mapList->pushBack(temp);

@@ -29,14 +29,14 @@ public:
 	//deletes ELEMENTS of the list, use with caution, elments may be part of other lists
 	void deleteList();
 
+	//removes entity from the list
+	void removeEntity(BaseEntity *entity);
+
 	//removes the last element from the list and returns a pointer to its element
 	BaseEntity *popBack();
 
 	//returns pointer to entity at head of the list, returns NULL if empty
 	BaseEntity *head();
-
-	//returns pointer to entity at end of the list, returns NULL if empty
-	BaseEntity *tail();
 
 	int length();
 

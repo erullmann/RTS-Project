@@ -68,11 +68,11 @@ void Game::GameLoop(){
         while (_renderWindow->pollEvent(currentEvent))
         {
             if (currentEvent.type == sf::Event::Closed)
-                _renderWindow->close();
+				_gameState = EXITING;
 
 			if (currentEvent.type == sf::Event::KeyPressed && currentEvent.key.code == sf::Keyboard::Escape)
 			{
-				_renderWindow->close();
+				_gameState = EXITING;
 			}
 			if (currentEvent.type == sf::Event::KeyPressed && currentEvent.key.code == sf::Keyboard::Left) 
 			{

@@ -13,7 +13,7 @@ public:
 
 	virtual void update(sf::Time frameTime); //different for all inheriting objects; will typically make AI, physics and collision calls; if colliding with a dangours object, will take damage
 
-	virtual void draw();//draws object on screen based on self read conditions
+	virtual void draw(); //draws object on screen based on self read conditions
 
 	virtual void destroy(); //dystroys the unit
 

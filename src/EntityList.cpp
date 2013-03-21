@@ -31,6 +31,23 @@ void EntityList::pushBack(BaseEntity *entity){
 	_length++;
 }
 
+void EntityList::removeEntity(BaseEntity *entity){
+	eList *prevList = NULL;
+	eList *currList = _head;
+	while (currList != NULL && currList->entity != entity){
+		prevList = currList;
+		currList = currList->nextEntity;
+	}
+
+	if (currList != NULL){
+		prevList->nextEntity = currList->nextEntity;
+		delete currList;
+		_length--;
+	} else{
+		//not in list, do nothing
+	}
+}
+
 void EntityList::deleteList(){
 	while (_head != NULL){
 		eList *temp = _head;
@@ -64,13 +81,6 @@ BaseEntity *EntityList::popBack(){
 BaseEntity *EntityList::head(){
 	if (_head != NULL)
 		return _head->entity;
-	else
-		return NULL;
-}
-
-BaseEntity *EntityList::tail(){
-	if (_tail != NULL)
-		return _tail->entity;
 	else
 		return NULL;
 }
