@@ -53,7 +53,7 @@ void Game::GameLoop(){
 	sf::Vector2f mapOffset(0, 0);
 
 	int cameraMovementSpeed = 5;
-	sf::View view(sf::Vector2f(0, 0), sf::Vector2f(800, 600));
+	sf::View view(sf::Vector2f(0, 0), sf::Vector2f(SCREEN_X, SCREEN_Y));
 	
 	_levelManager = new LevelManager(*_renderWindow, *_resourceManager);
 	_levelManager->generate(234);//we can put real maps in later

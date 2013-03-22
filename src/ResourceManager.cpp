@@ -3,7 +3,7 @@
 void ResourceManager::load()
 {
 	//load spritesheets
-	mapTextureSheet.loadFromFile("tilesheet.png");
+	mapTextureSheet.loadFromFile("grass_tilesheet.png");
 	unitTextureSheet.loadFromFile("tilesheet.png");
 }
 
