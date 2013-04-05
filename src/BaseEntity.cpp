@@ -19,4 +19,7 @@ sf::Vector2f BaseEntity::returnPosition(){
 	return sf::Vector2f(0, 0);
 }
 
+enum ENTITYTYPE BaseEntity::returnType(){
+	return BASE_TYPE;
+}
 

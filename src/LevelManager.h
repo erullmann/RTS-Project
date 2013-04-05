@@ -9,6 +9,7 @@
 #include "EntityType.h"
 #include "EntityList.h"
 #include "Tile.h"
+#include "Deer.h"
 
 class LevelManager
 {

@@ -32,8 +32,6 @@ public:
 	//Returns the tile's height
 	int returnHeight();
 
-private:
-
 	sf::Vector2f _position;
 
 	int _height;

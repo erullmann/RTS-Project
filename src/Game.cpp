@@ -69,10 +69,12 @@ void Game::GameLoop(){
         {
             if (currentEvent.type == sf::Event::Closed)
 				_gameState = EXITING;
+				break;
 
 			if (currentEvent.type == sf::Event::KeyPressed && currentEvent.key.code == sf::Keyboard::Escape)
 			{
 				_gameState = EXITING;
+				break;
 			}
 			if (currentEvent.type == sf::Event::KeyPressed && currentEvent.key.code == sf::Keyboard::Left) 
 			{

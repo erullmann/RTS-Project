@@ -9,9 +9,10 @@ EntityList::EntityList(){
 }
 
 EntityList::~EntityList(){
-	while (_head != NULL){
-		eList *temp = _head;
-		_head = _head->nextEntity;
+	eList *curr = _head;
+	while (curr->nextEntity != NULL){
+		eList *temp = curr;
+		curr = curr->nextEntity;
 		delete temp;
 	}
 }
@@ -22,6 +23,7 @@ void EntityList::pushBack(BaseEntity *entity){
 		_head->entity = entity;
 		_head->nextEntity = NULL;
 		_tail = _head;
+		_currIterator = _head;
 	} else{
 		_tail->nextEntity = new eList;
 		_tail = _tail->nextEntity;
@@ -87,6 +89,18 @@ BaseEntity *EntityList::head(){
 
 int EntityList::length(){
 	return _length;
+}
+
+bool EntityList::isMember(BaseEntity *entity){
+	BaseEntity *x = iterateEntites();
+	while(x != NULL){
+		if (x == entity)
+			return true;
+		else
+			x = iterateEntites();
+	}
+	resetIterator();
+	return false;
 }
 
 BaseEntity *EntityList::iterateEntites(){

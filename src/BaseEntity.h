@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include "SFML\Graphics.hpp"
+#include "EntityType.h"
 
 class BaseEntity
 {
@@ -19,6 +20,6 @@ public:
 
 	virtual sf::Vector2f returnPosition();
 
-	virtual ENTITYTYPE returnType();
+	virtual enum ENTITYTYPE returnType();
 
 };

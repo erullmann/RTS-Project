@@ -40,6 +40,8 @@ public:
 
 	int length();
 
+	bool isMember(BaseEntity *entity);
+
 	//rentuns entity pointer at the next place in the list, resets itself when it returns NULL
 	BaseEntity *iterateEntites();
 

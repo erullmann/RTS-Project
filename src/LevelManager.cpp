@@ -33,11 +33,26 @@ void LevelManager::save(std::string filename)
 void LevelManager::generate(int seed){
 	for(int i=0; i<10; i++){
 		for(int j=0; j<10; j++){
-			ENTITYTYPE type = TILE_GRASS;
+			float rand = std::rand() % 10;
+			ENTITYTYPE type;
+			if (rand < 5)
+				type = TILE_WOOD;
+			else
+				type = TILE_GRASS;
 			Tile *temp = new Tile(sf::Vector2f(i, j), sf::Vector2i(128, 64), *_renderWindow, *_resourceManager, type, 0);
 			_mapList->pushBack(temp);
 		}
 	}
+
+	Tile *tile = static_cast<Tile*>(_mapList->iterateEntites());
+	while(tile != NULL){
+		tile->_nodeComponent->findNeighbors(*_mapList, *tile, sf::Vector2i(10, 10));
+		tile = static_cast<Tile*>(_mapList->iterateEntites());
+	}
+
+	Deer *temp = new Deer(sf::Vector2f(5, 5), sf::Vector2f(0,0), _mapList, _unitList, NULL, *_resourceManager, *_renderWindow);
+	_unitList->pushBack(temp);
+	temp->setDest(sf::Vector2f(0,0));
 }
 
 void LevelManager::updateLevel(sf::Time frame_time){
@@ -83,13 +98,15 @@ void LevelManager::drawAllEntitys(){
 		currEntity->draw();
 		currEntity = _mapList->iterateEntites();
 	}
+	_mapList->resetIterator();
 
 	currEntity = _unitList->iterateEntites();
 	while (currEntity != NULL)
 	{
 		currEntity->draw();
-		currEntity = _mapList->iterateEntites();
+		currEntity = _unitList->iterateEntites();
 	}
+	_unitList->resetIterator();
 }
 
 void LevelManager::pauseGame(){

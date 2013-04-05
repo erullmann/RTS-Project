@@ -1,12 +1,13 @@
 #pragma once
 /*
 file: PathfindComponent.h
-Extends the MobileComponent class which is added to entities for movement
+Extends the PhysicsComponent class which is added to entities for movement
 Handles pathfinding to a destination
 */
 
-#include "EntityList.h"
-#include "MobileComponent.h"
+#include "PhysicsComponent.h"
+#include "Tile.h"
+
 enum MOVESTATE{
 	HALTED,
 	CRAWLING,
@@ -14,7 +15,7 @@ enum MOVESTATE{
 	RUNNING
 };
 
-class PathfindComponent :public MobileComponent {
+class PathfindComponent :public PhysicsComponent {
 public:
 
 	PathfindComponent(sf::Vector2f position, sf::Vector2f heading, EntityList *map, EntityList *entities, float maxspeed);
@@ -54,11 +55,13 @@ private:
 
 	void findRoute(sf::Vector2f dest);
 
+	Tile *returnLowestFScore(EntityList list);
+
+	Tile *returnTileEntity(sf::Vector2f location);
+
 	float getSpeedModifier(MOVESTATE state);
 
 	EntityList *_map;
-
-	EntityList *_entities;
 
 	std::vector<sf::Vector2f> _route;
 

@@ -4,6 +4,7 @@
 #pragma once
 
 enum ENTITYTYPE{
+	BASE_TYPE,
 	TILE_OCEAN,
 	TILE_GRASS,
 	TILE_DESERT,
