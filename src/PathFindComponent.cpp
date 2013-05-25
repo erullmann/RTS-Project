@@ -82,8 +82,8 @@ void PathfindComponent::findRoute(sf::Vector2f dest){
 	openSet.pushBack(start);
 	start->_nodeComponent->updateFscore(dest, 0);
 
-	while(returnLowestFScore(openSet) != destination){
-		Tile *current = returnLowestFScore(openSet);
+	while(returnLowestFScore(&openSet) != destination){
+		Tile *current = returnLowestFScore(&openSet);
 		closedSet.pushBack(current);
 
 		EntityList neighbors = current->_nodeComponent->returnNeighbors();
@@ -118,16 +118,16 @@ void PathfindComponent::findRoute(sf::Vector2f dest){
 	_route.shrink_to_fit();
 }
 
-Tile *PathfindComponent::returnLowestFScore(EntityList list){
-	Tile *temp = static_cast<Tile*>(list.iterateEntites());
+Tile *PathfindComponent::returnLowestFScore(EntityList *list){
+	Tile *temp = static_cast<Tile*>(list->iterateEntites());
 	Tile *minFScoreTile = temp;
 	while(temp != NULL){
 		if (temp->_nodeComponent->_fScore < minFScoreTile->_nodeComponent->_fScore){
 			minFScoreTile = temp;
 		}
-		temp = static_cast<Tile*>(list.iterateEntites());
+		temp = static_cast<Tile*>(list->iterateEntites());
 	}
-	list.resetIterator();
+	list->resetIterator();
 	return minFScoreTile;
 }
 

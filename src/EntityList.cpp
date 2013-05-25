@@ -1,16 +1,25 @@
 #pragma once
 #include "EntityList.h"
 
+//ENTITY LIST CLASS
 EntityList::EntityList(){
 	_head = NULL;
 	_tail = NULL;
-	_currIterator = NULL;
 	_length = 0;
 }
 
 EntityList::~EntityList(){
 	eList *curr = _head;
-	while (curr->nextEntity != NULL){
+	while (curr != NULL){
+		eList *temp = curr;
+		curr = curr->nextEntity;
+		delete temp;
+	}
+}
+
+void EntityList::clearList(){
+	eList *curr = _head;
+	while (curr != NULL){
 		eList *temp = curr;
 		curr = curr->nextEntity;
 		delete temp;
@@ -23,7 +32,6 @@ void EntityList::pushBack(BaseEntity *entity){
 		_head->entity = entity;
 		_head->nextEntity = NULL;
 		_tail = _head;
-		_currIterator = _head;
 	} else{
 		_tail->nextEntity = new eList;
 		_tail = _tail->nextEntity;
@@ -63,7 +71,7 @@ void EntityList::deleteList(){
 BaseEntity *EntityList::popBack(){
 	eList *prevList = NULL;
 	eList *currList = _head;
-	while (currList->nextEntity != NULL){
+	while (currList != NULL && currList->nextEntity != NULL){
 		prevList = currList;
 		currList = currList->nextEntity;
 	}
@@ -92,29 +100,77 @@ int EntityList::length(){
 }
 
 bool EntityList::isMember(BaseEntity *entity){
-	BaseEntity *x = iterateEntites();
-	while(x != NULL){
-		if (x == entity)
-			return true;
-		else
-			x = iterateEntites();
+	EntityListIterator iter(this);
+	while (iter.getPlace() != entity && !iter.atEnd()){
+		iter.next();
 	}
-	resetIterator();
-	return false;
+
+	if (iter.getPlace() == entity)
+		return true;
+	else
+		return false;
 }
 
-BaseEntity *EntityList::iterateEntites(){
-	BaseEntity *temp;
-	if (_currIterator == NULL){
-		temp = NULL;
-		_currIterator = _head;
-	} else{
-		temp = _currIterator->entity;
-		_currIterator = _currIterator->nextEntity;
-	}
-	return temp;
+
+//ENTITY LIST ITERATOR CLASS
+EntityListIterator::EntityListIterator(){
+	_currList = NULL;
+	_currPlace = NULL;
+	_currPos = 0;
 }
 
-void EntityList::resetIterator(){
-	_currIterator = _head;
+EntityListIterator::EntityListIterator(EntityList* list){
+	_currList = list;
+	_currPlace = list->_head;
+	_currPos = 0;
+}
+
+void EntityListIterator::assign(EntityList* list){
+	_currList = list;
+	_currPlace = list->_head;
+	_currPos = 0;
+}
+
+void EntityListIterator::reset(){
+	_currPos = 0;
+	_currPlace = _currList->_head;
+}
+
+BaseEntity *EntityListIterator::next(){
+	if (!atEnd()){
+		_currPlace = _currPlace->nextEntity;
+		++_currPos;
+		return _currPlace->entity;
+	} else {
+		return NULL;
+	}
+}
+
+BaseEntity *EntityListIterator::next(int n){
+	int i = 0;
+	while (i < n){
+		if (!atEnd()){ //while we're not at the end
+			next();
+		} else { //loop if at end
+			reset();
+		}
+		++i;
+	}
+	return _currPlace->entity;
+}
+
+BaseEntity *EntityListIterator::getPlace(){
+	return _currPlace->entity;
+}
+
+int EntityListIterator::getPos(){
+	return _currPos;
+}
+
+EntityList *EntityListIterator::getCurrList(){
+	return _currList;
+}
+
+bool EntityListIterator::atEnd(){
+	return _currPlace->nextEntity == NULL;
 }

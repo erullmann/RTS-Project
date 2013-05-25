@@ -55,7 +55,7 @@ private:
 
 	void findRoute(sf::Vector2f dest);
 
-	Tile *returnLowestFScore(EntityList list);
+	Tile *returnLowestFScore(EntityList *list);
 
 	Tile *returnTileEntity(sf::Vector2f location);
 
