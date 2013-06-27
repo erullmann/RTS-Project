@@ -33,7 +33,7 @@ public:
 
 	//scores for pathfinding
 	// fScore = gScore + hScore
-	float _fScore, _gScore, _hScore;
+	float _fScore, _gScore, _hScore, _dScore;
 	
 private:
 

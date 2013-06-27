@@ -4,20 +4,25 @@
 
 NodeComponent::NodeComponent(Tile *self){
 	_position = self->returnPosition();
+	_gScore = 0;
+	_fScore = 0;
+	_hScore = 0;
 }
 
 void NodeComponent::findNeighbors(EntityList &map, Tile &self, sf::Vector2i mapSize){
-	map.resetIterator();
-	//fix iterator
+	EntityListIterator mapIter(&map);
+	BaseEntity *temp = mapIter.curr();
+
 	for (int i = 0; i < mapSize.x * mapSize.y; i++){
-		BaseEntity *temp = map.iterateEntites();
 		if(temp->returnPosition() != self.returnPosition()){
-			if (temp->returnPosition().x - self.returnPosition().x < 1 && temp->returnPosition().x - self.returnPosition().x > -1){
-				if (temp->returnPosition().y - self.returnPosition().y < 1 && temp->returnPosition().y - self.returnPosition().y > -1){
+			if (temp->returnPosition().x - self.returnPosition().x < 2 && temp->returnPosition().x - self.returnPosition().x > -2){
+				if (temp->returnPosition().y - self.returnPosition().y < 2 && temp->returnPosition().y - self.returnPosition().y > -2){
 					_neighbors.pushBack(temp);
 				}
 			}
 		}
+
+		temp = mapIter.next();
 	}
 }
 

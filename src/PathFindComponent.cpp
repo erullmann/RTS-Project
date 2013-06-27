@@ -46,7 +46,7 @@ sf::Vector2f PathfindComponent::getDestination(){
 
 bool PathfindComponent::atDestination(){
 	if (abs(_route.back().x - _position.x) <= 0.1 && abs(_route.back().y - _position.y) <= 0.1){
-		_position = _route.front();
+		_position = _route.back();
 		return true;
 	} else {
 		return false;
@@ -62,6 +62,7 @@ void PathfindComponent::update(sf::Time time){
 		//just keep going to destination
 		_heading = normalize(_route.back() - _position);
 		_velocity = _heading * (_maxspeed * getSpeedModifier(_movestate));
+
 	}else{
 		_movestate = HALTED;
 		_velocity = sf::Vector2f(0, 0);
@@ -73,71 +74,92 @@ void PathfindComponent::update(sf::Time time){
 void PathfindComponent::findRoute(sf::Vector2f dest){
 	//clear old route
 	_route.clear();
-	_map->resetIterator();
+
+	
+
 	//start tile is closest tile to the entity
 	Tile *start = returnTileEntity(sf::Vector2f(round(this->_position.x), round(this->_position.y)));
 	Tile *destination = returnTileEntity(dest);
 	EntityList closedSet;
+	EntityListIterator closedIter(&closedSet);
+
 	EntityList openSet;
+	EntityListIterator openIter(&openSet);
 	openSet.pushBack(start);
 	start->_nodeComponent->updateFscore(dest, 0);
 
-	while(returnLowestFScore(&openSet) != destination){
+	while(openSet.length() != 0){
 		Tile *current = returnLowestFScore(&openSet);
+
+		if (current == destination){
+			Tile *currPath = destination;
+
+			//create new route from current position (at end of route stack) to dest (at front of route stack)
+			_route.push_back(dest);
+			while(currPath != start){
+				_route.push_back(currPath->returnPosition());
+				currPath = currPath->_nodeComponent->returnParent();
+			}
+			_route.push_back(start->returnPosition());
+			_route.shrink_to_fit();
+			break;
+		}
+
+		openSet.removeEntity(current);
 		closedSet.pushBack(current);
 
 		EntityList neighbors = current->_nodeComponent->returnNeighbors();
-		Tile *currNeighbor = static_cast<Tile*>(neighbors.iterateEntites());
+		EntityListIterator  neighborIter(&neighbors);
+		Tile *currNeighbor = static_cast<Tile*>(neighborIter.curr());
+
 		while(currNeighbor != NULL){
-			float cost = current->_nodeComponent->_gScore + 1;
+			float cost = current->_nodeComponent->_gScore + abs(current->returnPosition().x - currNeighbor->returnPosition().x) + abs(current->returnPosition().y - currNeighbor->returnPosition().y);
+
 			if(openSet.isMember(currNeighbor) && cost < currNeighbor->_nodeComponent->_gScore){
-				//new path better
 				openSet.removeEntity(currNeighbor);
-			} 
+			}
+
 			if(closedSet.isMember(currNeighbor) && cost < currNeighbor->_nodeComponent->_gScore){
 				closedSet.removeEntity(currNeighbor);
 			}
-			if(!closedSet.isMember(currNeighbor) && !openSet.isMember(currNeighbor)){
+			
+			if(!openSet.isMember(currNeighbor) && !closedSet.isMember(currNeighbor)){
 				currNeighbor->_nodeComponent->updateFscore(dest, cost);
 				currNeighbor->_nodeComponent->setParent(current);
 				openSet.pushBack(currNeighbor);
+				
 			}
+
+			currNeighbor = static_cast<Tile*>(neighborIter.next());
 		}
-		neighbors.resetIterator();
 	}
 
-	Tile *currPath = destination;
-
-	//create new route from current position (at end of route stack) to dest (at front of route stack)
-	_route.push_back(dest);
-	while(currPath != start){
-		_route.push_back(currPath->returnPosition());
-		currPath = currPath->_nodeComponent->returnParent();
-	}
-	_route.push_back(start->returnPosition());
-	_route.shrink_to_fit();
+	
 }
 
 Tile *PathfindComponent::returnLowestFScore(EntityList *list){
-	Tile *temp = static_cast<Tile*>(list->iterateEntites());
+	EntityListIterator tempIter(list);
+	Tile *temp = static_cast<Tile*>(tempIter.curr());
 	Tile *minFScoreTile = temp;
+
 	while(temp != NULL){
 		if (temp->_nodeComponent->_fScore < minFScoreTile->_nodeComponent->_fScore){
 			minFScoreTile = temp;
 		}
-		temp = static_cast<Tile*>(list->iterateEntites());
+		temp = static_cast<Tile*>(tempIter.next());
 	}
-	list->resetIterator();
+
 	return minFScoreTile;
 }
 
 
 Tile *PathfindComponent::returnTileEntity(sf::Vector2f location){
-	Tile *entity = static_cast<Tile*>(_map->iterateEntites());
+	EntityListIterator mapIter(_map);
+	Tile *entity = static_cast<Tile*>(mapIter.curr());
+
 	while (entity != NULL && entity->returnPosition() != location ){
-		entity = static_cast<Tile*>(_map->iterateEntites());
+		entity = static_cast<Tile*>(mapIter.next());
 	}
-	_map->resetIterator();
 	return entity;
 }
 

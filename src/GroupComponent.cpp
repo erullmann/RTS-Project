@@ -43,15 +43,15 @@ bool GroupComponent::isLeader(BaseEntity *entity){
 }
 
 bool GroupComponent::isMember(BaseEntity *entity){
-	BaseEntity *ittr = _group->iterateEntites();
+	EntityListIterator groupIter(_group);
+	BaseEntity *ittr = groupIter.curr();
 
 	while (ittr != NULL){
 		if (ittr = entity){
-			_group->resetIterator();
 			return true;
 		}
 		else
-			ittr = _group->iterateEntites();
+			ittr = groupIter.next();
 	}
 
 	return false;

@@ -44,25 +44,26 @@ void LevelManager::generate(int seed){
 		}
 	}
 
-	Tile *tile = static_cast<Tile*>(_mapList->iterateEntites());
+	EntityListIterator mapIter(_mapList);
+	Tile *tile = static_cast<Tile*>(mapIter.curr());
 	while(tile != NULL){
 		tile->_nodeComponent->findNeighbors(*_mapList, *tile, sf::Vector2i(10, 10));
-		tile = static_cast<Tile*>(_mapList->iterateEntites());
+		tile = static_cast<Tile*>(mapIter.next());
 	}
 
 	Deer *temp = new Deer(sf::Vector2f(5, 5), sf::Vector2f(0,0), _mapList, _unitList, NULL, *_resourceManager, *_renderWindow);
 	_unitList->pushBack(temp);
-	temp->setDest(sf::Vector2f(0,0));
+	temp->setDest(sf::Vector2f(7, 7));
 }
 
 void LevelManager::updateLevel(sf::Time frame_time){
-	_unitList->resetIterator(); //just to be safe
+	EntityListIterator unitIter(_unitList);
+	BaseEntity *currEntity = unitIter.curr();
 
-	BaseEntity *currEntity = _unitList->iterateEntites();
 	while (currEntity != NULL)
 	{
 		currEntity->update(frame_time);
-		currEntity = _unitList->iterateEntites();
+		currEntity = unitIter.next();
 	}
 }
 
@@ -89,24 +90,23 @@ void LevelManager::deleteAllEntitys(){
 }
 
 void LevelManager::drawAllEntitys(){
-	_mapList->resetIterator();
-	_unitList->resetIterator();
+	EntityListIterator mapIter(_mapList);
+	EntityListIterator unitIter(_unitList);
 
-	BaseEntity *currEntity = _mapList->iterateEntites();
+	BaseEntity *currEntity = mapIter.curr();
 	while (currEntity != NULL)
 	{
 		currEntity->draw();
-		currEntity = _mapList->iterateEntites();
+		currEntity = mapIter.next();
 	}
-	_mapList->resetIterator();
 
-	currEntity = _unitList->iterateEntites();
+	currEntity = unitIter.curr();
 	while (currEntity != NULL)
 	{
 		currEntity->draw();
-		currEntity = _unitList->iterateEntites();
+		currEntity = unitIter.next();
 	}
-	_unitList->resetIterator();
+	
 }
 
 void LevelManager::pauseGame(){

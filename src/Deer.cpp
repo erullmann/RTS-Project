@@ -18,7 +18,7 @@ Deer::~Deer(){
 }
 
 void Deer::update(sf::Time frameTime){
-	
+	_pathfindComponent->update(frameTime);
 }
 
 void Deer::draw(){

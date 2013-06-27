@@ -49,8 +49,12 @@ void EntityList::removeEntity(BaseEntity *entity){
 		currList = currList->nextEntity;
 	}
 
-	if (currList != NULL){
+	if (currList != NULL && prevList != NULL){ //not at begining of list
 		prevList->nextEntity = currList->nextEntity;
+		delete currList;
+		_length--;
+	} else if(currList != NULL && prevList == NULL){//at begining of list
+		_head = currList->nextEntity;
 		delete currList;
 		_length--;
 	} else{
@@ -101,11 +105,11 @@ int EntityList::length(){
 
 bool EntityList::isMember(BaseEntity *entity){
 	EntityListIterator iter(this);
-	while (iter.getPlace() != entity && !iter.atEnd()){
+	while (iter.curr() != entity && !iter.atEnd()){
 		iter.next();
 	}
 
-	if (iter.getPlace() == entity)
+	if (iter.curr() == entity)
 		return true;
 	else
 		return false;
@@ -159,8 +163,12 @@ BaseEntity *EntityListIterator::next(int n){
 	return _currPlace->entity;
 }
 
-BaseEntity *EntityListIterator::getPlace(){
-	return _currPlace->entity;
+BaseEntity *EntityListIterator::curr(){
+	if (_currPlace == NULL){
+		return NULL;
+	} else {
+		return _currPlace->entity;
+	}
 }
 
 int EntityListIterator::getPos(){
@@ -172,5 +180,9 @@ EntityList *EntityListIterator::getCurrList(){
 }
 
 bool EntityListIterator::atEnd(){
-	return _currPlace->nextEntity == NULL;
+	if (_currPlace == NULL){
+		return true;
+	} else {
+		return _currPlace->nextEntity == NULL;
+	}
 }

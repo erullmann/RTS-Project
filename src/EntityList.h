@@ -91,7 +91,7 @@ public:
 	BaseEntity *next(int n);
 
 	//gets the Iterator's current Place (entity its at) in the list
-	BaseEntity *getPlace();
+	BaseEntity *curr();
 
 	//gets the Iterator's current position (numerical) in the list
 	int getPos();
