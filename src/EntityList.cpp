@@ -42,23 +42,28 @@ void EntityList::pushBack(BaseEntity *entity){
 }
 
 void EntityList::removeEntity(BaseEntity *entity){
-	eList *prevList = NULL;
-	eList *currList = _head;
-	while (currList != NULL && currList->entity != entity){
-		prevList = currList;
-		currList = currList->nextEntity;
+	eList *prev = NULL;
+	eList *curr = _head;
+	if (curr == NULL){
+		return;
+	}
+	while (curr->nextEntity != NULL && curr->entity != entity){
+		prev = curr;
+		curr = curr->nextEntity;
 	}
 
-	if (currList != NULL && prevList != NULL){ //not at begining of list
-		prevList->nextEntity = currList->nextEntity;
-		delete currList;
-		_length--;
-	} else if(currList != NULL && prevList == NULL){//at begining of list
-		_head = currList->nextEntity;
-		delete currList;
-		_length--;
-	} else{
-		//not in list, do nothing
+	if (curr->entity == entity){
+		if (prev == NULL){//at front of list
+			_head = curr->nextEntity;
+		} else if (curr->nextEntity == NULL){//end of list
+			prev->nextEntity = NULL;
+			_tail = prev;
+		} else { //in the middle
+			prev->nextEntity = curr->nextEntity;
+		}
+		delete curr;
+	} else {
+		return; //couldn't find it
 	}
 }
 

@@ -51,9 +51,9 @@ void LevelManager::generate(int seed){
 		tile = static_cast<Tile*>(mapIter.next());
 	}
 
-	Deer *temp = new Deer(sf::Vector2f(5, 5), sf::Vector2f(0,0), _mapList, _unitList, NULL, *_resourceManager, *_renderWindow);
+	Deer *temp = new Deer(sf::Vector2f(5, 0), sf::Vector2f(0,0), _mapList, _unitList, NULL, *_resourceManager, *_renderWindow);
 	_unitList->pushBack(temp);
-	temp->setDest(sf::Vector2f(7, 7));
+	temp->setDest(sf::Vector2f(1, 7));
 }
 
 void LevelManager::updateLevel(sf::Time frame_time){

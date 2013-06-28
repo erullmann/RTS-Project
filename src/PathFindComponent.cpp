@@ -94,11 +94,12 @@ void PathfindComponent::findRoute(sf::Vector2f dest){
 		if (current == destination){
 			Tile *currPath = destination;
 
-			//create new route from current position (at end of route stack) to dest (at front of route stack)
+			//create new route from current position (at front of route stack) to dest (at end of route stack)
 			_route.push_back(dest);
 			while(currPath != start){
 				_route.push_back(currPath->returnPosition());
 				currPath = currPath->_nodeComponent->returnParent();
+				std::cout<<"Route Node is at: " <<currPath->returnPosition().x <<", "<<currPath->returnPosition().y<<" with fScore: "<<currPath->_nodeComponent->_fScore<<"\n";
 			}
 			_route.push_back(start->returnPosition());
 			_route.shrink_to_fit();
@@ -113,7 +114,7 @@ void PathfindComponent::findRoute(sf::Vector2f dest){
 		Tile *currNeighbor = static_cast<Tile*>(neighborIter.curr());
 
 		while(currNeighbor != NULL){
-			float cost = current->_nodeComponent->_gScore + abs(current->returnPosition().x - currNeighbor->returnPosition().x) + abs(current->returnPosition().y - currNeighbor->returnPosition().y);
+			float cost = current->_nodeComponent->_gScore + 1;
 
 			if(openSet.isMember(currNeighbor) && cost < currNeighbor->_nodeComponent->_gScore){
 				openSet.removeEntity(currNeighbor);
@@ -129,9 +130,10 @@ void PathfindComponent::findRoute(sf::Vector2f dest){
 				openSet.pushBack(currNeighbor);
 				
 			}
-
+			
 			currNeighbor = static_cast<Tile*>(neighborIter.next());
 		}
+		
 	}
 
 	

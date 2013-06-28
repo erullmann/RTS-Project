@@ -32,7 +32,9 @@ EntityList NodeComponent::returnNeighbors(){
 
 float NodeComponent::updateFscore(sf::Vector2f dest, float gScore){
 	_gScore = gScore;
-	_hScore = abs(dest.x - _position.x) + abs(dest.y - _position.y);
+	int dx = abs(dest.x - _position.x);
+	int dy = abs(dest.y - _position.y);
+	_hScore = (dx + dy) + (-0.5)*(std::min(dx, dy)); //-0.5 ~= sqrt(2)-2 an approximation of the diaginal move cost
 	_fScore = _gScore + _hScore;
 	return _fScore;
 }
