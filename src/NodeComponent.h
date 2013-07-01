@@ -1,5 +1,5 @@
 /* NodeComponent.h
-   Provides node functionality for pathfinding to tiles and possibly AI waypoints
+   Provides node functionality for movementing to tiles and possibly AI waypoints
 */
 #pragma once
 #include "SFML\System.hpp"
@@ -19,19 +19,19 @@ public:
 	//  - sf::Vector2i mapSize is the size of the map in tiles
 	void findNeighbors(EntityList &map, Tile &self, sf::Vector2i mapSize);
 
-	//returns neighboring tiles for evaluation during pathfinding
+	//returns neighboring tiles for evaluation during movementing
 	EntityList returnNeighbors();
 
 	//sets the parent
 	void setParent(Tile *parent);
 
-	//returns the parent tile for backtracing while pathfinding
+	//returns the parent tile for backtracing while movementing
 	Tile *returnParent();	
 
 	//recalulates and returns new fscore
 	float updateFscore(sf::Vector2f dest, float gscore);
 
-	//scores for pathfinding
+	//scores for movementing
 	// fScore = gScore + hScore
 	float _fScore, _gScore, _hScore, _dScore;
 	

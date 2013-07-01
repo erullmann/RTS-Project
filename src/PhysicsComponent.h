@@ -2,7 +2,7 @@
 
 #include "SFML\System.hpp"
 #include "EntityList.h"
-
+//CONSIDER REMOVING
 class PhysicsComponent {
 public:
 

@@ -35,7 +35,7 @@ void LevelManager::generate(int seed){
 		for(int j=0; j<10; j++){
 			float rand = std::rand() % 10;
 			ENTITYTYPE type;
-			if (rand < 5)
+			if (rand < 3)
 				type = TILE_WOOD;
 			else
 				type = TILE_GRASS;

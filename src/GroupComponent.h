@@ -7,7 +7,7 @@ One instance of this class per group, all members have a pointer to it
 Can chain groups/leaders to create a sort of chain of command
 	-LeaderComponent will only issue orders to groups it is leader of
 */
-
+//CONSIDER REMOVING
 #pragma once
 
 #include "BaseEntity.h"

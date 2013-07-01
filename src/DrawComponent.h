@@ -5,6 +5,8 @@
 	-the owner class dicides if animations get played
 	-the owner class gives draw class animation lengths 
 */
+
+//CONSIDER SPLITTING INTO DIFFRENT DRAW CLASSES
 #pragma once
 #include "SFML\Graphics.hpp"
 #include "ResourceManager.h"

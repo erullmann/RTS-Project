@@ -1,13 +1,13 @@
 #pragma once
 
-#include "PathfindComponent.h"
+#include "MovementComponent.h"
 
 //utility function that rounds off numbers
 float round(float x){
 	return floor(x + 0.5);
 }
 
-PathfindComponent::PathfindComponent(sf::Vector2f position, sf::Vector2f heading, EntityList *map, EntityList *entities, float speed):
+MovementComponent::MovementComponent(sf::Vector2f position, sf::Vector2f heading, EntityList *map, EntityList *entities, float speed):
 	PhysicsComponent(entities, false, position, 0, sf::Vector2f(0, 0), sf::Vector2f(0.5, 0.5)){
 	_map = map;
 	_movestate = WALKING;
@@ -18,46 +18,44 @@ PathfindComponent::PathfindComponent(sf::Vector2f position, sf::Vector2f heading
 	_velocity = sf::Vector2f(0, 0);
 }
 
-PathfindComponent::~PathfindComponent(){
+MovementComponent::~MovementComponent(){
 
 }
 
-void PathfindComponent::setDestination(sf::Vector2f dest){
+void MovementComponent::setDestination(sf::Vector2f dest){
 	findRoute(dest);
 }
 
-void PathfindComponent::setSpeed(float maxspeed){
+void MovementComponent::setSpeed(float maxspeed){
 	_maxspeed = maxspeed;
 
 	_velocity = _heading * (maxspeed * getSpeedModifier(_movestate));
 }
 
-void PathfindComponent::setMoveState(MOVESTATE state){
+void MovementComponent::setMoveState(MOVESTATE state){
 	_movestate = state;
 }
 
-enum MOVESTATE PathfindComponent::getMoveState(){
+enum MOVESTATE MovementComponent::getMoveState(){
 	return _movestate;
 }
 
-sf::Vector2f PathfindComponent::getDestination(){
+sf::Vector2f MovementComponent::getDestination(){
 	return _route.front();
 }
 
-bool PathfindComponent::atDestination(){
-	if (abs(_route.back().x - _position.x) <= 0.1 && abs(_route.back().y - _position.y) <= 0.1){
-		_position = _route.back();
+bool MovementComponent::atDestination(){
+	if (abs(_route.back().x - _position.x) <= 0.01 && abs(_route.back().y - _position.y) <= 0.01){
 		return true;
 	} else {
 		return false;
 	}
 }
 
-void PathfindComponent::update(sf::Time time){
-	if (atDestination()){
+void MovementComponent::update(sf::Time time){
+	if (!_route.empty() && atDestination()){
 		_route.pop_back();
-		_heading = normalize(_route.back() - _position);
-		_velocity = _heading * (_maxspeed * getSpeedModifier(_movestate));
+
 	} else if(!_route.empty()) {
 		//just keep going to destination
 		_heading = normalize(_route.back() - _position);
@@ -71,7 +69,7 @@ void PathfindComponent::update(sf::Time time){
 	PhysicsComponent::update(time);
 }
 
-void PathfindComponent::findRoute(sf::Vector2f dest){
+void MovementComponent::findRoute(sf::Vector2f dest){
 	//clear old route
 	_route.clear();
 
@@ -139,7 +137,7 @@ void PathfindComponent::findRoute(sf::Vector2f dest){
 	
 }
 
-Tile *PathfindComponent::returnLowestFScore(EntityList *list){
+Tile *MovementComponent::returnLowestFScore(EntityList *list){
 	EntityListIterator tempIter(list);
 	Tile *temp = static_cast<Tile*>(tempIter.curr());
 	Tile *minFScoreTile = temp;
@@ -155,7 +153,7 @@ Tile *PathfindComponent::returnLowestFScore(EntityList *list){
 }
 
 
-Tile *PathfindComponent::returnTileEntity(sf::Vector2f location){
+Tile *MovementComponent::returnTileEntity(sf::Vector2f location){
 	EntityListIterator mapIter(_map);
 	Tile *entity = static_cast<Tile*>(mapIter.curr());
 
@@ -165,7 +163,7 @@ Tile *PathfindComponent::returnTileEntity(sf::Vector2f location){
 	return entity;
 }
 
-float PathfindComponent::getSpeedModifier(MOVESTATE state){
+float MovementComponent::getSpeedModifier(MOVESTATE state){
 	switch (state){
 		case HALTED:
 			return 0;

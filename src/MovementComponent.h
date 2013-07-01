@@ -1,8 +1,8 @@
 #pragma once
 /*
-file: PathfindComponent.h
+file: MovementComponent.h
 Extends the PhysicsComponent class which is added to entities for movement
-Handles pathfinding to a destination
+Handles movementing to a destination
 */
 
 #include "PhysicsComponent.h"
@@ -15,12 +15,12 @@ enum MOVESTATE{
 	RUNNING
 };
 
-class PathfindComponent :public PhysicsComponent {
+class MovementComponent :public PhysicsComponent {
 public:
 
-	PathfindComponent(sf::Vector2f position, sf::Vector2f heading, EntityList *map, EntityList *entities, float maxspeed);
+	MovementComponent(sf::Vector2f position, sf::Vector2f heading, EntityList *map, EntityList *entities, float maxspeed);
 
-	~PathfindComponent();
+	~MovementComponent();
 
 	//AI/User commands//
 

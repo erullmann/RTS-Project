@@ -4,22 +4,53 @@
 /////////////////////
 #pragma once
 
-#include <iostream>
 #include "SFML\Graphics.hpp"
-#include "EntityType.h"
+#include "Types.h"
+#include "BaseComponent.h"
+#include "DrawComponent.h"
+#include "Message.h"
 
 class BaseEntity
 {
 public:
 
-	virtual void update(sf::Time frameTime); //different for all inheriting objects; will typically make AI, physics and collision calls; if colliding with a dangours object, will take damage
+	//calls update for all the contents of updateBuffer
+	//-frameTime: time since last frame, useful for entities that do actions periodicly
+	void update(sf::Time frameTime); 
 
-	virtual void draw(); //draws object on screen based on self read conditions
+	//draws object on screen based on info in the msg buffer
+	void draw(); 
 
-	virtual void destroy(); //dystroys the unit
+	//dystroys the unit, and all child components
+	void destroy(); 
 
-	virtual sf::Vector2f returnPosition();
+	//post a message to this entity (usually from anouther enemy for attacks and stuff)
+	//-message: message to be posted
+	void postMessage(msg* message);
 
-	virtual enum ENTITYTYPE returnType();
+	//returns the type of the entity (see entitytypes.h for full list)
+	enum ENTITYTYPE returnType();
+
+	//dumps the old update buffer and makes a new one, use with caution, 
+	//dosn't delete old components, use getBuffer to get and delete them as nessary
+	//remember to delete newBuffer after calling this to avoid memory leaks, this is a copy operation
+	//-newBuffer: the contents of the new buffer
+	void alterBuffer(std::vector<BaseComponent*>* newBuffer); 
+
+	//returns the contents of the update buffer
+	std::vector<BaseComponent*>* getBuffer();
+
+private:
+
+	//clears the message buffer (use every frame)
+	void clearMsgBuffer();
+
+	std::vector<BaseComponent*> _updateBuffer;
+
+	std::vector<msg*> _msgBuffer;
+
+	DrawComponent* _drawComponent;
+
+	enum ENTITYTYPE _type;
 
 };

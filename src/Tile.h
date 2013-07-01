@@ -1,5 +1,5 @@
 /* Tile.h
-   Defines tile class for map and provides drawing functions and information for pathfinding.
+   Defines tile class for map and provides drawing functions and information for movementing.
 */
 #pragma once
 #include "SFML\Graphics.hpp"

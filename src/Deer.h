@@ -3,7 +3,7 @@
 //defines Deer class
 
 #include "DrawComponent.h"
-#include "PathFindComponent.h"
+#include "MovementComponent.h"
 #include "GroupComponent.h"
 
 class Deer: public BaseEntity{
@@ -23,7 +23,7 @@ public:
 
 	DrawComponent *_drawComponent;
 
-	PathfindComponent *_pathfindComponent;
+	MovementComponent *_MovementComponent;
 
 	GroupComponent *_group;
 };

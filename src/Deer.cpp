@@ -4,7 +4,7 @@
 
 Deer::Deer(sf::Vector2f position, sf::Vector2f heading, EntityList *map, EntityList *entities, GroupComponent *group, ResourceManager &resourceManager, sf::RenderWindow &renderWindow){
 	_drawComponent = new DrawComponent(resourceManager, UNIT_DEER, renderWindow, sf::Vector2i(128, 64), sf::Vector2i(0, 0), sf::Vector2i(0, 0), sf::Vector2i(0, 0), sf::Vector2i(0, 0), 1, 1, 1);
-	_pathfindComponent = new PathfindComponent(position, heading, map, entities, 1.0);
+	_MovementComponent = new MovementComponent(position, heading, map, entities, 1.0);
 	_group = group;
 	if(_group != NULL){
 		_group->addMember(this);
@@ -14,15 +14,15 @@ Deer::Deer(sf::Vector2f position, sf::Vector2f heading, EntityList *map, EntityL
 Deer::~Deer(){
 	_group->removeMember(this);
 	_drawComponent->~DrawComponent();
-	_pathfindComponent->~PathfindComponent();
+	_MovementComponent->~MovementComponent();
 }
 
 void Deer::update(sf::Time frameTime){
-	_pathfindComponent->update(frameTime);
+	_MovementComponent->update(frameTime);
 }
 
 void Deer::draw(){
-	_drawComponent->drawInGame(_pathfindComponent->_position);
+	_drawComponent->drawInGame(_MovementComponent->_position);
 }
 
 enum ENTITYTYPE Deer::returnType(){
@@ -30,5 +30,5 @@ enum ENTITYTYPE Deer::returnType(){
 }
 
 void Deer::setDest(sf::Vector2f dest){
-	_pathfindComponent->setDestination(dest);
+	_MovementComponent->setDestination(dest);
 }
