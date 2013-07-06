@@ -8,7 +8,7 @@ BaseComponent::BaseComponent(){
 	_type = BASE_COMP;
 }
 
-void BaseComponent::getMessages(std::vector<msg>* msgBuffer){
+void BaseComponent::readMessages(std::vector<msg*>* msgBuffer){
 	//do nothing
 }
 
@@ -16,7 +16,11 @@ void BaseComponent::update(sf::Time frameTime){
 	//do nothing
 }
 
-void BaseComponent::postMessages(std::vector<msg>* msgBuffer){
+void BaseComponent::postMessages(std::vector<msg*>* msgBuffer){
+	//do nothing
+}
+
+void BaseComponent::destroy(){
 	//do nothing
 }
 

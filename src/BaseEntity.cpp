@@ -6,7 +6,7 @@ void BaseEntity::update(sf::Time frameTime)
 {
 	//seperate these out to avoid overlapping message requests
 	for(std::vector<BaseComponent*>::iterator iter = _updateBuffer.begin(); iter != _updateBuffer.end(); ++iter){
-		(*iter)->getMessages(&_msgBuffer);
+		(*iter)->readMessages(&_msgBuffer);
 	}
 
 	clearMsgBuffer();

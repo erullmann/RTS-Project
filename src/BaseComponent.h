@@ -18,7 +18,7 @@ public:
 
 	//reads the message buffer given to it and stores the info it needs
 	// -msgBuffer: the messages to be read
-	virtual void getMessages(std::vector<msg*>* msgBuffer);
+	virtual void readMessages(std::vector<msg*>* msgBuffer);
 
 	//update the component (update position, health, whatever)
 	// -frameTime: the time since the last frame
