@@ -31,11 +31,13 @@ public:
 	virtual void destroy();
 
 	//returns the entity type that this component is... (duh)
-	enum COMPONENTTYPE returnType();
+	COMPONENTTYPE returnType();
 
-private:
+protected:
 
-	enum COMPONENTTYPE _type;
+	static COMPONENTTYPE _type;
+
+	BaseEntity* _parentEntity;
 
 };
 

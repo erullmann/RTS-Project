@@ -25,8 +25,8 @@ void Deer::draw(){
 	_drawComponent->drawInGame(_MovementComponent->_position);
 }
 
-enum ENTITYTYPE Deer::returnType(){
-	return UNIT_DEER;
+ENTITYTYPE Deer::returnType(){
+	return ANIMAL_DEER;
 }
 
 void Deer::setDest(sf::Vector2f dest){

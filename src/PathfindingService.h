@@ -7,7 +7,7 @@
 
 #include "EntityList.h"
 #include "Tile.h"
-#include "EntityTypes.h"
+#include "Types.h"
 
 class PathfindingService {
 public:
@@ -18,8 +18,8 @@ public:
 	//findPath(start, dest)
 	//returns vector list of points to destination, reciever must properly dispose of list to prevent memory leaks
 	//list is new each time and organized as a stack with endLocation at the top of the stack and startLocation at the bottom
-	//moementType is how the creatue can move, allows for correct pathing and prevents falling off cliffs
-	std::vector<sf::Vector2i>* findPath(sf::Vector2i startLocation, sf::Vector2i endLocation, enum MOVEMENTTYPE movementType);
+	//moementType is how the creatue can move (flys, walks, swims, etc), allows for correct pathing and prevents falling off cliffs
+	std::vector<sf::Vector2i>* findPath(sf::Vector2i startLocation, sf::Vector2i endLocation, MOVEMENTTYPE movementType);
 
 private:
 

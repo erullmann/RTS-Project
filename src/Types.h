@@ -3,6 +3,12 @@
    */
 #pragma once
 
+enum GENERICTYPE{
+	CREATURE,
+	PLANT,
+	INANIMATE
+};
+
 //centeral list of all enity types (might want to change this if dymanic entity loading is implemented)
 enum ENTITYTYPE{
 	BASE_TYPE,
@@ -28,24 +34,26 @@ enum MOVEMENTTYPE{
 //Component types
 enum COMPONENTTYPE{
 	BASE_COMP,
-	CALORIE_COMP,
-	WALKER_COMP,
-	BODY_COMP
+	MOVER_COMP,
+	BODY_COMP,
+	SIGHT_COMP,
+	FEAR_COMP
 };
 
 enum SOUNDTYPE{
 	NOISE,
 	STAY_AWAY,
 	WANT_MATE,
-	HELP_ME
+	HELP_ME,
 };
 
 enum SMELLTYPE{
 	PISS,
 	SHIT,
-	HEAT,
+	HEAT,//mating heat
 	BLOOD,
-	DEATH
+	DEATH,
+	POLLEN
 };
 
 enum ANIMALSTATE{
@@ -61,4 +69,23 @@ enum ANIMALSTATE{
 	ATTCKING,
 	MATING,
 	CALLING
+};
+
+enum RECOMMONDATION{
+	FEED,
+	FLEE,
+	FIGHT,
+	MATE,
+	HUNT,
+	REST
+};
+
+enum RELATION{
+	UNKNOWN,
+	MATE,
+	FAMILY,
+	ALLY,
+	NEUTRAL,
+	FOE,
+	FOOD
 };

@@ -185,9 +185,6 @@ EntityList *EntityListIterator::getCurrList(){
 }
 
 bool EntityListIterator::atEnd(){
-	if (_currPlace == NULL){
-		return true;
-	} else {
-		return _currPlace->nextEntity == NULL;
-	}
+	return _currPlace == NULL;
+
 }

@@ -24,6 +24,8 @@ void BaseComponent::destroy(){
 	//do nothing
 }
 
-enum COMPONENTTYPE BaseComponent::returnType(){
+COMPONENTTYPE BaseComponent::returnType(){
 	return _type;
 }
+
+COMPONENTTYPE BaseComponent::_type = BASE_COMP;

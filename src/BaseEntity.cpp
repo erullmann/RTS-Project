@@ -31,6 +31,10 @@ void BaseEntity::postMessage(msg* message){
 	_msgBuffer.push_back(message);
 }
 
+std::vector<msg*>* BaseEntity::getMessageBuffer(){
+	return &_msgBuffer;
+}
+
 void BaseEntity::destroy()
 {
 	for(std::vector<BaseComponent*>::iterator iter = _updateBuffer.begin(); iter != _updateBuffer.end(); ++iter){
@@ -39,15 +43,24 @@ void BaseEntity::destroy()
 }
 
 
-enum ENTITYTYPE BaseEntity::returnType(){
+ENTITYTYPE BaseEntity::returnType(){
 	return _type;
 }
 
-void BaseEntity::alterBuffer(std::vector<BaseComponent*>* newBuffer){
-	_updateBuffer = *newBuffer;
+sf::Vector2i BaseEntity::returnPosition(){
+	for(std::vector<msg*>::iterator iter = _msgBuffer.begin(); iter != _msgBuffer.end(); ++iter){
+		if((*iter)->type == msg::MESSAGETYPE::CURRENTPOSITION){
+			return sf::Vector2i((*iter)->position.x, (*iter)->position.y);
+		}
+	}
+	return sf::Vector2i(0,0);
 }
 
-std::vector<BaseComponent*>* BaseEntity::getBuffer(){
+void BaseEntity::alterComponentList(std::vector<BaseComponent*> newBuffer){
+	_updateBuffer = newBuffer;
+}
+
+std::vector<BaseComponent*>* BaseEntity::getComponentList(){
 	return &_updateBuffer;
 }
 

@@ -12,7 +12,7 @@ PathfindingService::PathfindingService(EntityList *map){
 }
 
 //we can add filter for movement types later (i.e. filter neighbors for water tiles and such)
-std::vector<sf::Vector2i>* PathfindingService::findPath(sf::Vector2i start, sf::Vector2i end, enum MOVEMENTTYPE moveType){
+std::vector<sf::Vector2i>* PathfindingService::findPath(sf::Vector2i start, sf::Vector2i end, MOVEMENTTYPE moveType){
 	//make new route
 	std::vector<sf::Vector2i>* route = new std::vector<sf::Vector2i>;
 

@@ -28,17 +28,23 @@ public:
 	//-message: message to be posted
 	void postMessage(msg* message);
 
+	//returns a pointer to the message buffer
+	std::vector<msg*>* getMessageBuffer();
+
 	//returns the type of the entity (see entitytypes.h for full list)
-	enum ENTITYTYPE returnType();
+	ENTITYTYPE returnType();
+
+	//return position of entity 
+	sf::Vector2i returnPosition();
 
 	//dumps the old update buffer and makes a new one, use with caution, 
 	//dosn't delete old components, use getBuffer to get and delete them as nessary
 	//remember to delete newBuffer after calling this to avoid memory leaks, this is a copy operation
 	//-newBuffer: the contents of the new buffer
-	void alterBuffer(std::vector<BaseComponent*>* newBuffer); 
+	void alterComponentList(std::vector<BaseComponent*> newBuffer); 
 
 	//returns the contents of the update buffer
-	std::vector<BaseComponent*>* getBuffer();
+	std::vector<BaseComponent*>* getComponentList();
 
 private:
 
@@ -51,6 +57,5 @@ private:
 
 	DrawComponent* _drawComponent;
 
-	enum ENTITYTYPE _type;
-
+	ENTITYTYPE _type;
 };

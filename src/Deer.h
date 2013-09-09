@@ -19,7 +19,7 @@ public:
 	//testing code, get rid of me
 	void setDest(sf::Vector2f dest);
 
-	enum ENTITYTYPE returnType();
+	ENTITYTYPE returnType();
 
 	DrawComponent *_drawComponent;
 
